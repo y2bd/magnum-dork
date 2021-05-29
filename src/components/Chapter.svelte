@@ -44,9 +44,8 @@
       <a
         href="#/manga/{result.id}"
         on:click|preventDefault={() => onClickChapterResult(result)}
-        >{result.title}</a
+        >v{result.volume}c{result.chapter} {result.title}</a
       >
-      <p>Volume #{result.volume}, Chapter #{result.chapter}</p>
     </li>
   {/each}
 </ul>
@@ -70,7 +69,7 @@
   li a {
     color: white;
     font-weight: 600;
-    font-size: 1.5em;
+    font-size: 1.2em;
   }
 
   .ender {
