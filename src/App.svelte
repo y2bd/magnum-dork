@@ -1,30 +1,25 @@
 <script lang="ts">
-	export let name: string;
+  import Search from "./components/Search.svelte";
+  import Chapter from "./components/Chapter.svelte";
+  import Page from "./components/Page.svelte";
+  import type { ChapterResult } from "./client/chapterClient";
+
+  let focusedMangaId: string | undefined;
+  let focusedChapter: ChapterResult | undefined;
 </script>
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
+{#if focusedChapter}
+  <Page chapter={focusedChapter} />
+{/if}
+
+{#if focusedMangaId}
+  <Chapter
+    mangaId={focusedMangaId}
+    on:chapterSelected={(evt) => (focusedChapter = evt.detail.chapter)}
+  />
+{/if}
+
+<Search on:mangaSelected={(evt) => (focusedMangaId = evt.detail.mangaId)} />
 
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
 </style>
