@@ -7,7 +7,7 @@
     "dev": "rollup -c -w",
     "start": "sirv public --no-clear",
     "validate": "svelte-check",
-    "gh-pages": "node ./scripts/ghPages.js"
+    "gh-pages": "node ./scripts/gh-pages.js"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
