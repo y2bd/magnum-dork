@@ -9,8 +9,5 @@ ghpages.publish(
       name: "Jason Lo", // update to use your name
       email: "github@jasonlo.email", // Update to use your email
     },
-  },
-  () => {
-    console.log("Deploy Complete!");
   }
 );

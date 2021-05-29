@@ -9,7 +9,9 @@ export interface ChapterArgs {
 }
 
 export function chapter(args: ChapterArgs) {
-  const url = new URL(`https://api.mangadex.org/chapter`);
+  const url = new URL(
+    `https://restless-mode-a980.arewecoolyet.workers.dev/chapter`
+  );
 
   url.searchParams.append("manga", args.manga);
   args.volume && url.searchParams.append("volume", args.volume);

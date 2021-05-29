@@ -7,7 +7,9 @@ export interface SearchArgs {
 }
 
 export function search(args: SearchArgs) {
-  const url = new URL("https://api.mangadex.org/manga");
+  const url = new URL(
+    "https://restless-mode-a980.arewecoolyet.workers.dev/manga"
+  );
   url.searchParams.append("title", args.title);
   url.searchParams.append("limit", String(10));
   url.searchParams.append("offset", String(args.offset ?? 0));
