@@ -14214,17 +14214,16 @@ var app = (function () {
     function create_each_block(ctx) {
     	let li;
     	let a;
-    	let t0_value = /*result*/ ctx[10].title + "";
     	let t0;
-    	let a_href_value;
+    	let t1_value = /*result*/ ctx[10].volume + "";
     	let t1;
-    	let p;
     	let t2;
-    	let t3_value = /*result*/ ctx[10].volume + "";
+    	let t3_value = /*result*/ ctx[10].chapter + "";
     	let t3;
     	let t4;
-    	let t5_value = /*result*/ ctx[10].chapter + "";
+    	let t5_value = /*result*/ ctx[10].title + "";
     	let t5;
+    	let a_href_value;
     	let t6;
     	let mounted;
     	let dispose;
@@ -14237,31 +14236,28 @@ var app = (function () {
     		c: function create() {
     			li = element("li");
     			a = element("a");
-    			t0 = text(t0_value);
-    			t1 = space();
-    			p = element("p");
-    			t2 = text("Volume #");
+    			t0 = text("v");
+    			t1 = text(t1_value);
+    			t2 = text("c");
     			t3 = text(t3_value);
-    			t4 = text(", Chapter #");
+    			t4 = space();
     			t5 = text(t5_value);
     			t6 = space();
     			attr_dev(a, "href", a_href_value = "#/manga/" + /*result*/ ctx[10].id);
-    			attr_dev(a, "class", "svelte-1qukknv");
+    			attr_dev(a, "class", "svelte-yuhug6");
     			add_location(a, file$1, 45, 6, 1777);
-    			add_location(p, file$1, 50, 6, 1925);
-    			attr_dev(li, "class", "svelte-1qukknv");
+    			attr_dev(li, "class", "svelte-yuhug6");
     			add_location(li, file$1, 44, 4, 1766);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
     			append_dev(li, a);
     			append_dev(a, t0);
-    			append_dev(li, t1);
-    			append_dev(li, p);
-    			append_dev(p, t2);
-    			append_dev(p, t3);
-    			append_dev(p, t4);
-    			append_dev(p, t5);
+    			append_dev(a, t1);
+    			append_dev(a, t2);
+    			append_dev(a, t3);
+    			append_dev(a, t4);
+    			append_dev(a, t5);
     			append_dev(li, t6);
 
     			if (!mounted) {
@@ -14271,14 +14267,13 @@ var app = (function () {
     		},
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
-    			if (dirty & /*chapterResults*/ 2 && t0_value !== (t0_value = /*result*/ ctx[10].title + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*chapterResults*/ 2 && t1_value !== (t1_value = /*result*/ ctx[10].volume + "")) set_data_dev(t1, t1_value);
+    			if (dirty & /*chapterResults*/ 2 && t3_value !== (t3_value = /*result*/ ctx[10].chapter + "")) set_data_dev(t3, t3_value);
+    			if (dirty & /*chapterResults*/ 2 && t5_value !== (t5_value = /*result*/ ctx[10].title + "")) set_data_dev(t5, t5_value);
 
     			if (dirty & /*chapterResults*/ 2 && a_href_value !== (a_href_value = "#/manga/" + /*result*/ ctx[10].id)) {
     				attr_dev(a, "href", a_href_value);
     			}
-
-    			if (dirty & /*chapterResults*/ 2 && t3_value !== (t3_value = /*result*/ ctx[10].volume + "")) set_data_dev(t3, t3_value);
-    			if (dirty & /*chapterResults*/ 2 && t5_value !== (t5_value = /*result*/ ctx[10].chapter + "")) set_data_dev(t5, t5_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(li);
@@ -14298,7 +14293,7 @@ var app = (function () {
     	return block;
     }
 
-    // (55:0) {#if loading}
+    // (54:0) {#if loading}
     function create_if_block_1$1(ctx) {
     	let aside;
 
@@ -14306,8 +14301,8 @@ var app = (function () {
     		c: function create() {
     			aside = element("aside");
     			aside.textContent = "loading...";
-    			attr_dev(aside, "class", "ender svelte-1qukknv");
-    			add_location(aside, file$1, 55, 2, 2025);
+    			attr_dev(aside, "class", "ender svelte-yuhug6");
+    			add_location(aside, file$1, 54, 2, 1995);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, aside, anchor);
@@ -14321,14 +14316,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1$1.name,
     		type: "if",
-    		source: "(55:0) {#if loading}",
+    		source: "(54:0) {#if loading}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (58:0) {#if !loading && chapterResults.length > 0}
+    // (57:0) {#if !loading && chapterResults.length > 0}
     function create_if_block$2(ctx) {
     	let button;
     	let mounted;
@@ -14338,8 +14333,8 @@ var app = (function () {
     		c: function create() {
     			button = element("button");
     			button.textContent = "fetch more...";
-    			attr_dev(button, "class", "ender svelte-1qukknv");
-    			add_location(button, file$1, 58, 2, 2117);
+    			attr_dev(button, "class", "ender svelte-yuhug6");
+    			add_location(button, file$1, 57, 2, 2087);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -14361,7 +14356,7 @@ var app = (function () {
     		block,
     		id: create_if_block$2.name,
     		type: "if",
-    		source: "(58:0) {#if !loading && chapterResults.length > 0}",
+    		source: "(57:0) {#if !loading && chapterResults.length > 0}",
     		ctx
     	});
 
@@ -14397,7 +14392,7 @@ var app = (function () {
     			t1 = space();
     			if (if_block1) if_block1.c();
     			if_block1_anchor = empty$1();
-    			attr_dev(ul, "class", "svelte-1qukknv");
+    			attr_dev(ul, "class", "svelte-yuhug6");
     			add_location(ul, file$1, 42, 0, 1722);
     		},
     		l: function claim(nodes) {
