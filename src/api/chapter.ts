@@ -18,6 +18,9 @@ export function chapter(args: ChapterArgs) {
   args.chapter && url.searchParams.append("chapter", args.chapter);
   url.searchParams.append("limit", String(10));
   url.searchParams.append("offset", String(args.offset ?? 0));
+  url.searchParams.append("translatedLanguage[]", "en");
+  url.searchParams.append("order[volume]", "asc");
+  url.searchParams.append("order[chapter]", "asc");
 
   return sfetch(url.toString())
     .then((response) => response.json())
