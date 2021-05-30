@@ -83,6 +83,8 @@
     flex-grow: 1;
     border-right: none;
     font-size: 1m;
+
+    border-radius: 0;
   }
 
   ul {

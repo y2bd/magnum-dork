@@ -11,52 +11,6 @@
 
   $: onChapterChanged(chapter);
 
-  function loadImg(options, callback) {
-    let seconds = 0,
-      maxSeconds = 10,
-      complete = false,
-      done = false;
-
-    if (options.maxSeconds) {
-      maxSeconds = options.maxSeconds;
-    }
-
-    function tryImage() {
-      if (done) {
-        return;
-      }
-      if (seconds >= maxSeconds) {
-        callback({ err: "timeout" });
-        done = true;
-        return;
-      }
-      if (complete && img.complete) {
-        if (img.width && img.height) {
-          callback({ img: img });
-          done = true;
-          return;
-        }
-        callback({ err: "404" });
-        done = true;
-        return;
-      } else if (img.complete) {
-        complete = true;
-      }
-      seconds++;
-      callback.tryImage = setTimeout(tryImage, 500);
-    }
-    var img = new Image();
-    img.onload = tryImage;
-    img.src = options.src;
-    tryImage();
-  }
-
-  function loadImgPromise(url: string) {
-    return new Promise((resolve) =>
-      loadImg({ maxSeconds: 10, src: url }, resolve)
-    );
-  }
-
   async function onChapterChanged(newChapter: ChapterResult) {
     if (!newChapter) {
       return;
@@ -64,21 +18,36 @@
 
     loading = true;
     pageClient = await makePageClientFactory(newChapter);
-    let incomingPage = await pageClient.getNextPage();
-    await loadImgPromise(incomingPage);
-    currentPage = incomingPage;
+    currentPage = await loadNextPage();
     loading = false;
+
+    window.scrollTo({ top: 0 });
+  }
+
+  async function loadNextPage() {
+    const nextPageUrl = await pageClient.getNextPage();
+
+    const loadedNextPageUrl = await new Promise<string>((resolve) => {
+      const img = new Image();
+
+      img.addEventListener("load", function onLoad(evt: Event) {
+        img.removeEventListener("load", onLoad);
+        resolve(img.src);
+      });
+
+      img.src = nextPageUrl;
+    });
+
+    return loadedNextPageUrl;
   }
 
   async function onNextPage() {
     if (pageClient) {
       loading = true;
-      let incomingPage = await pageClient.getNextPage();
-      await loadImgPromise(incomingPage);
-      currentPage = incomingPage;
+      currentPage = await loadNextPage();
       loading = false;
 
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0 });
     }
   }
 
@@ -88,7 +57,7 @@
       currentPage = await pageClient.getPreviousPage();
       loading = false;
 
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0 });
     }
   }
 
@@ -100,6 +69,10 @@
     }
   }
 </script>
+
+{#if loading}
+  <div id="progress" class="loading">&nbsp;</div>
+{/if}
 
 {#if currentPage}
   <img
@@ -117,18 +90,50 @@
 <style>
   img {
     display: block;
-    width: 100vw;
-    margin: -16px 0 0px -16px;
+    width: calc(100% + 32px);
+    margin-top: -16px;
+    margin-left: -16px;
+
+    transition: opacity 0.3s ease;
   }
 
   img.loading {
     opacity: 0.85;
   }
 
+  #progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: steelblue;
+
+    z-index: 10000;
+  }
+
+  #progress.loading {
+    opacity: 1;
+    animation-duration: 1s;
+    animation-name: pulse;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+  }
+
+  @keyframes pulse {
+    from {
+      opacity: 0.2;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
   footer {
-    width: 100vw;
-    display: flex;
+    width: calc(100% + 32px);
     margin-left: -16px;
+    display: flex;
   }
 
   footer button {
@@ -139,5 +144,9 @@
     color: white;
 
     flex: 1;
+  }
+
+  footer button:first {
+    border-right: none;
   }
 </style>
