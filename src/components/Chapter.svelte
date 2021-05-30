@@ -23,6 +23,10 @@
     chapterClient.changeMangaQuery({ manga: newMangaId });
     chapterResults = await chapterClient.getNextPageOfResults();
     loading = false;
+
+    dispatch("chapterSelected", { chapter: undefined });
+
+    window.scrollTo({ top: 0 });
   }
 
   async function onFetchMore() {

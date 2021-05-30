@@ -9,6 +9,8 @@
   let currentPage: string | undefined;
   let loading: boolean = false;
 
+  let pageImageElement: HTMLImageElement | undefined;
+
   $: onChapterChanged(chapter);
 
   async function onChapterChanged(newChapter: ChapterResult) {
@@ -18,7 +20,7 @@
 
     loading = true;
     pageClient = await makePageClientFactory(newChapter);
-    currentPage = await loadNextPage();
+    await loadNextPage();
     loading = false;
 
     window.scrollTo({ top: 0 });
@@ -38,13 +40,30 @@
       img.src = nextPageUrl;
     });
 
-    return loadedNextPageUrl;
+    currentPage = loadedNextPageUrl;
+
+    let loadLoopCounter = 0;
+    await new Promise<void>((resolve) => {
+      if (!pageImageElement) {
+        resolve();
+      }
+
+      pageImageElement.addEventListener("load", function onLoad() {
+        pageImageElement.removeEventListener("load", onLoad);
+
+        if (pageImageElement.complete || ++loadLoopCounter > 5) {
+          resolve();
+        } else {
+          setTimeout(onLoad, 100);
+        }
+      });
+    });
   }
 
   async function onNextPage() {
     if (pageClient) {
       loading = true;
-      currentPage = await loadNextPage();
+      await loadNextPage();
       loading = false;
 
       window.scrollTo({ top: 0 });
@@ -80,6 +99,7 @@
     src={currentPage}
     on:mouseup={onPageClick}
     class:loading={!!loading}
+    bind:this={pageImageElement}
   />
   <footer>
     <button id="prevPage" on:click={onPreviousPage}>{"← prev"}</button>
@@ -144,6 +164,8 @@
     color: white;
 
     flex: 1;
+
+    cursor: pointer;
   }
 
   footer button:first {
